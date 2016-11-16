@@ -37,7 +37,7 @@ type
     property Value[const AName: String]: Double write SetValueNode;
   end;
 
-  TNodeListers = specialize TFPGMap<String, TDOMNode>;
+  TNodeListers = specialize TFPGMap<DOMString, TDOMNode>;
 
   TOriXmlFileReader = class(TOriXmlFile)
   private
@@ -48,9 +48,9 @@ type
     function GetBoolAttribute(const AName: String): Boolean;
     function GetTextNode(const AName: String): String;
     function GetValueNode(const AName: String): Double;
-    function GetListing(const AName: String): TDOMNode;
-    procedure RemoveListing(const AName: String);
-    procedure AppendListing(const AName: String; ANode: TDOMNode);
+    function GetListing(const AName: DOMString): TDOMNode;
+    procedure RemoveListing(const AName: DOMString);
+    procedure AppendListing(const AName: DOMString; ANode: TDOMNode);
   public
     constructor Create(const AFileName: String); reintroduce;
     destructor Destroy; override;
@@ -88,7 +88,7 @@ begin
   if Assigned(AFirst) then Result := AFirst else Result := ASecond;
 end;
 
-function GetPath(ANode: TDOMNode): String;
+function GetPath(ANode: TDOMNode): DOMString;
 var node: TDOMNode;
 begin
   Result := '';
@@ -157,7 +157,7 @@ end;
 
 procedure TOriXmlFileWriter.Open(const AName: String);
 begin
-  FNode := NotNull(FNode, FDoc).AppendChild(FDoc.CreateElement(AName));
+  FNode := NotNull(FNode, FDoc).AppendChild(FDoc.CreateElement(UTF8ToUTF16(AName)));
 end;
 
 procedure TOriXmlFileWriter.SetAttribute(const AName, AValue: String);
@@ -165,8 +165,8 @@ var attr: TDOMAttr;
 begin
   if Assigned(FNode) then
   begin
-    attr := FDoc.CreateAttribute(AName);
-    attr.NodeValue := AValue;
+    attr := FDoc.CreateAttribute(UTF8ToUTF16(AName));
+    attr.NodeValue := UTF8ToUTF16(AValue);
     FNode.Attributes.SetNamedItem(attr);
   end;
 end;
@@ -179,7 +179,7 @@ end;
 procedure TOriXmlFileWriter.SetTextNode(const AName, AValue: String);
 begin
   if Assigned(FNode) then
-    FNode.AppendChild(FDoc.CreateElement(AName)).TextContent := UTF8Decode(AValue);
+    FNode.AppendChild(FDoc.CreateElement(UTF8ToUTF16(AName))).TextContent := UTF8ToUTF16(AValue);
 end;
 
 procedure TOriXmlFileWriter.SetValueNode(const AName: String; const AValue: Double);
@@ -214,7 +214,7 @@ end;
 procedure TOriXmlFileReader.Open(const AName: String);
 var node: TDOMNode;
 begin
-  node := CurrentNode.FindNode(AName);
+  node := CurrentNode.FindNode(UTF8ToUTF16(AName));
   if not Assigned(node) then
     raise EOriXmlFile.CreateFmt(SNodeNotFound, [AName, GetPath(CurrentNode)]);
   FNode := node;
@@ -227,7 +227,7 @@ end;
 function TOriXmlFileReader.TryOpen(const AName: String): Boolean;
 var node: TDOMNode;
 begin
-  node := CurrentNode.FindNode(AName);
+  node := CurrentNode.FindNode(UTF8ToUTF16(AName));
   if not Assigned(node) then Exit(False);
   FNode := node;
   FListed := nil;
@@ -257,7 +257,7 @@ begin
 {$endif}
 end;
 
-function TOriXmlFileReader.GetListing(const AName: String): TDOMNode;
+function TOriXmlFileReader.GetListing(const AName: DOMString): TDOMNode;
 var index: Integer;
 begin
   index := FListers.IndexOf(AName);
@@ -267,7 +267,7 @@ begin
 {$endif}
 end;
 
-procedure TOriXmlFileReader.RemoveListing(const AName: String);
+procedure TOriXmlFileReader.RemoveListing(const AName: DOMString);
 var index: Integer;
 begin
   index := FListers.IndexOf(AName);
@@ -277,7 +277,7 @@ begin
 {$endif}
 end;
 
-procedure TOriXmlFileReader.AppendListing(const AName: String; ANode: TDOMNode);
+procedure TOriXmlFileReader.AppendListing(const AName: DOMString; ANode: TDOMNode);
 begin
 {$ifdef TRACE_READING}
   Trace('Listing %s: %s', [IfThen(FListers.IndexOf(AName) < 0, 'added', 'updated'), AName]);
@@ -288,13 +288,13 @@ end;
 function TOriXmlFileReader.List(const AName: String): Boolean;
 var
   node: TDOMNode;
-  key: String;
+  key: DOMString;
 begin
 {$ifdef TRACE_READING}
   Trace('LIST: ' + AName);
   Trace('Current: ' + GetPath(CurrentNode));
 {$endif}
-  key := GetPath(NotNull(FNode, FDoc)) + '\' + AName;
+  key := GetPath(NotNull(FNode, FDoc)) + '\' + UTF8ToUTF16(AName);
   node := GetListing(key);
   if Assigned(node) then
   begin
@@ -305,7 +305,7 @@ begin
   end
   else
   begin
-    FListed := CurrentNode.FindNode(AName);
+    FListed := CurrentNode.FindNode(UTF8ToUTF16(AName));
     if Assigned(FListed) then
       AppendListing(key, FListed)
   end;
@@ -315,8 +315,10 @@ end;
 function TOriXmlFileReader.GetAttribute(const AName: String): String;
 var node: TDOMNode;
 begin
-  node := CurrentNode.Attributes.GetNamedItem(AName);
-  if Assigned(node) then Result := node.NodeValue else Result := '';
+  node := CurrentNode.Attributes.GetNamedItem(UTF8ToUTF16(AName));
+  if Assigned(node)
+    then Result := UTF16ToUTF8(node.NodeValue)
+    else Result := '';
 end;
 
 function TOriXmlFileReader.GetBoolAttribute(const AName: String): Boolean;
@@ -327,7 +329,7 @@ end;
 function TOriXmlFileReader.GetTextNode(const AName: String): String;
 var node, txt: TDOMNode;
 begin
-  node := CurrentNode.FindNode(AName);
+  node := CurrentNode.FindNode(UTF8ToUTF16(AName));
   if not Assigned(node) then
     raise EOriXmlFile.CreateFmt(SNodeNotFound, [AName, GetPath(CurrentNode)]);
   txt := node.FirstChild;
@@ -346,7 +348,7 @@ end;
 
 function TOriXmlFileReader.HasNode(const AName: String): Boolean;
 begin
-  Result := Assigned(CurrentNode.FindNode(AName));
+  Result := Assigned(CurrentNode.FindNode(UTF8ToUTF16(AName)));
 end;
 {%endregion}
 

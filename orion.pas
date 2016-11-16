@@ -7,9 +7,10 @@ unit Orion;
 interface
 
 uses
-    OriTabs, DesignTime, OriEditors, OriDebugConsole, OriGraphics, OriIniFile, 
-    OriMath, OriUndo, OriUtils, OriUtils_Gui, VistaDialogs, OriHelp, 
-    ObjectFilter, OriStrings, OriControlsBase, OriDialogs, LazarusPackageIntf;
+  OriTabs, DesignTime, OriEditors, OriDebugConsole, OriGraphics, OriIniFile, 
+  OriMath, OriUndo, OriUtils, OriUtils_Gui, VistaDialogs, OriHelp, 
+  ObjectFilter, OriStrings, OriControlsBase, OriDialogs, OriXmlFile, 
+  LazarusPackageIntf;
 
 implementation
 

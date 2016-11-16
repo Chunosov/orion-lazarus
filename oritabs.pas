@@ -93,7 +93,7 @@ type
     CTabMarginV, CTabMarginH: Byte;
     CTabIndentH, CTabIndentV: Byte;
 
-    procedure ShowControl(AIndex: Integer);
+    procedure ShowControl(AIndex: Integer); reintroduce;
     procedure HideControl(AIndex: Integer);
     procedure UpdateTabControls(OldTab, NewTab: Integer);
     function FindNextTabIndex(CurIndex: Integer; GoForward: Boolean): Integer;
