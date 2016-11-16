@@ -1,0 +1,10 @@
+object WndPropEditor: TWndPropEditor
+  Left = 735
+  Height = 304
+  Top = 429
+  Width = 458
+  Caption = 'Orion Controls Property Tester'
+  OnClose = FormClose
+  OnCreate = FormCreate
+  LCLVersion = '1.6.0.2'
+end

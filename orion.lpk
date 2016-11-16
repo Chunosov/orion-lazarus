@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="Orion"/>
+    <Type Value="RunAndDesignTime"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <IncludeFiles Value=".;htmllite"/>
+        <OtherUnitFiles Value="."/>
+        <UnitOutputDirectory Value="__lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Files Count="19">
+      <Item1>
+        <Filename Value="oritabs.pas"/>
+        <UnitName Value="OriTabs"/>
+      </Item1>
+      <Item2>
+        <Filename Value="icons.lrs"/>
+        <Type Value="LRS"/>
+      </Item2>
+      <Item3>
+        <Filename Value="designtime.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="DesignTime"/>
+      </Item3>
+      <Item4>
+        <Filename Value="orieditors.pas"/>
+        <UnitName Value="OriEditors"/>
+      </Item4>
+      <Item5>
+        <Filename Value="oridebugconsole.lfm"/>
+        <Type Value="LFM"/>
+      </Item5>
+      <Item6>
+        <Filename Value="oridebugconsole.pas"/>
+        <UnitName Value="OriDebugConsole"/>
+      </Item6>
+      <Item7>
+        <Filename Value="origraphics.pas"/>
+        <UnitName Value="OriGraphics"/>
+      </Item7>
+      <Item8>
+        <Filename Value="oriinifile.pas"/>
+        <UnitName Value="OriIniFile"/>
+      </Item8>
+      <Item9>
+        <Filename Value="orimath.pas"/>
+        <UnitName Value="OriMath"/>
+      </Item9>
+      <Item10>
+        <Filename Value="orion.pas"/>
+        <UnitName Value="Orion"/>
+      </Item10>
+      <Item11>
+        <Filename Value="oriundo.pas"/>
+        <UnitName Value="OriUndo"/>
+      </Item11>
+      <Item12>
+        <Filename Value="oriutils.pas"/>
+        <UnitName Value="OriUtils"/>
+      </Item12>
+      <Item13>
+        <Filename Value="oriutils_gui.pas"/>
+        <UnitName Value="OriUtils_Gui"/>
+      </Item13>
+      <Item14>
+        <Filename Value="vistadialogs.pas"/>
+        <UnitName Value="VistaDialogs"/>
+      </Item14>
+      <Item15>
+        <Filename Value="orihelp.pas"/>
+        <UnitName Value="OriHelp"/>
+      </Item15>
+      <Item16>
+        <Filename Value="objectfilter.pas"/>
+        <UnitName Value="ObjectFilter"/>
+      </Item16>
+      <Item17>
+        <Filename Value="oristrings.pas"/>
+        <UnitName Value="OriStrings"/>
+      </Item17>
+      <Item18>
+        <Filename Value="oricontrolsbase.pas"/>
+        <UnitName Value="OriControlsBase"/>
+      </Item18>
+      <Item19>
+        <Filename Value="oridialogs.pas"/>
+        <UnitName Value="OriDialogs"/>
+      </Item19>
+    </Files>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
+  </Package>
+</CONFIG>

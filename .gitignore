@@ -1,0 +1,8 @@
+**/backup
+**/__backup
+**/__lib
+**/__obj
+*.exe
+*.lps
+*.res
+*.fpcunit.ini
