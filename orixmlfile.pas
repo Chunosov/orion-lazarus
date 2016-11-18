@@ -46,7 +46,9 @@ type
     function GetCurrentNode: TDOMNode;
     function GetAttribute(const AName: String): String;
     function GetBoolAttribute(const AName: String): Boolean;
-    function GetTextNode(const AName: String): String;
+    function GetTextNode(const AName: String; Required: Boolean): String;
+    function GetTextNodeOptional(const AName: String): String;
+    function GetTextNodeRequired(const AName: String): String;
     function GetValueNode(const AName: String): Double;
     function GetListing(const AName: DOMString): TDOMNode;
     procedure RemoveListing(const AName: DOMString);
@@ -61,7 +63,8 @@ type
     function HasNode(const AName: String): Boolean;
     property Attribute[const AName: String]: String read GetAttribute;
     property BoolAttribute[const AName: String]: Boolean read GetBoolAttribute;
-    property Text[const AName: String]: String read GetTextNode;
+    property Text[const AName: String]: String read GetTextNodeOptional;
+    property TextRequired[const AName: String]: String read GetTextNodeRequired;
     property Value[const AName: String]: Double read GetValueNode;
     property CurrentNode: TDOMNode read GetCurrentNode;
   end;
@@ -326,12 +329,16 @@ begin
   if not TryStrToBool(GetAttribute(AName), Result) then Result := False;
 end;
 
-function TOriXmlFileReader.GetTextNode(const AName: String): String;
+function TOriXmlFileReader.GetTextNode(const AName: String; Required: Boolean): String;
 var node, txt: TDOMNode;
 begin
   node := CurrentNode.FindNode(UTF8ToUTF16(AName));
   if not Assigned(node) then
-    raise EOriXmlFile.CreateFmt(SNodeNotFound, [AName, GetPath(CurrentNode)]);
+  begin
+    if Required then
+      raise EOriXmlFile.CreateFmt(SNodeNotFound, [AName, GetPath(CurrentNode)])
+    else Exit('');
+  end;
   txt := node.FirstChild;
   if not Assigned(txt) then Exit(''); // case: <node/>
   if txt.NodeType <> TEXT_NODE then
@@ -339,10 +346,20 @@ begin
   Result := UTF8Encode(txt.NodeValue);
 end;
 
+function TOriXmlFileReader.GetTextNodeOptional(const AName: String): String;
+begin
+  Result := GetTextNode(AName, False);
+end;
+
+function TOriXmlFileReader.GetTextNodeRequired(const AName: String): String;
+begin
+  Result := GetTextNode(AName, True);
+end;
+
 function TOriXmlFileReader.GetValueNode(const AName: String): Double;
 var S: String;
 begin
-  S := Trim(GetTextNode(AName));
+  S := Trim(GetTextNode(AName, True));
   if S = '' then Result := NaN else Result := StrToFloat(S, FFormat);
 end;
 
