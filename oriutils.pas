@@ -13,6 +13,7 @@ procedure Unused(const UnusedObject);
 {%region Paths and FileNames}
 function EnsurePath(const APath: String): String;
 function ExtractFileExtNoDot(const FileName: String): String;
+function GetLocalPath(PlusDelimiter: Boolean = True): String;
 {%endregion}
 
 {%region Log}
@@ -86,6 +87,12 @@ end;
 function ExtractFileExtNoDot(const FileName: String): String;
 begin
   Result := Copy(ExtractFileExt(FileName), 2, MaxInt);
+end;
+
+function GetLocalPath(PlusDelimiter: Boolean): String;
+begin
+  Result := ExtractFilePath(ParamStr(0));
+  if PlusDelimiter then Result := AppendPathDelim(Result);
 end;
 {%endregion}
 
