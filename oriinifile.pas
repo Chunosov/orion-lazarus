@@ -114,7 +114,13 @@ var GetIniName: function(): String;
 }
 var IsPortable: Boolean;
 
-const CMainSection = 'PREFERENCES';
+const
+  CMainSection = 'PREFERENCES';
+{$IfDef WINDOWS}
+  SConfigFileExt = '.ini';
+{$Else}
+  SConfigFileExt = '.cfg';
+{$EndIf}
 
 procedure StoreFormGeometry(AForm: TCustomForm);
 procedure RestoreFormGeometry(AForm: TCustomForm);
@@ -151,7 +157,7 @@ var IniFileName: String;
 
 function GetLocalIniFileName: String;
 begin
-  Result := ChangeFileExt(ParamStrUTF8(0), '.cfg');
+  Result := ChangeFileExt(ParamStrUTF8(0), SConfigFileExt);
 end;
 
 function GetIniFileName: String;
@@ -214,7 +220,7 @@ begin
   FFormat.LongDateFormat := 'dd mmmm yyyy';
   FFormat.LongTimeFormat := 'hh:nn:ss.zzzz';
 
-  CaseSensitive := True;
+  Options := Options + [ifoCaseSensitive];
   CacheUpdates := True;
 end;
 

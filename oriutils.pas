@@ -23,7 +23,7 @@ uses
 type
   TIntegerList = specialize TFPGList<Integer>;
 
-procedure Unused(const UnusedObject);
+procedure Unused(const {%H-}UnusedObject);
 
 {%region Paths and FileNames}
 function EnsurePath(const APath: String): String;
