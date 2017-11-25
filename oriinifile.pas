@@ -1,3 +1,16 @@
+{***************************************************************************
+ *
+ * Orion-project.org Lazarus Helper Library
+ * Copyright (C) 2016-2017 by Nikolay Chunosov
+ * 
+ * This file is part of the Orion-project.org Lazarus Helper Library
+ * https://github.com/Chunosov/orion-lazarus
+ *
+ * This Library is free software: you can redistribute it and/or modify it 
+ * under the terms of the MIT License. See enclosed LICENSE.txt for details.
+ *
+ ***************************************************************************}
+
 unit OriIniFile;
 
 {$mode objfpc}{$H+}
@@ -10,6 +23,10 @@ uses
 type
   TOriIniFile = class(TIniFile)
   private
+    FInMemory: Boolean;
+    FMemStream: TStream;
+    FMemStorage: String;
+
     FSection: String;
     FFormat: TFormatSettings;
     Parts: array of String;
@@ -20,6 +37,7 @@ type
   public
     constructor Create; reintroduce;
     constructor Create(const AFileName: String); reintroduce;
+    constructor CreateInMemory;
     destructor Destroy; override;
 
     function KeyExists(const Key: String): Boolean; overload; inline;
@@ -155,6 +173,7 @@ end;
 {%region TOriIniFile}
 constructor TOriIniFile.Create;
 begin
+  FInMemory := False;
   FSection := CMainSection;
 
   if Assigned(GetIniName)
@@ -166,15 +185,22 @@ end;
 
 constructor TOriIniFile.Create(const AFileName: String);
 begin
+  FInMemory := False;
   FSection := CMainSection;
   inherited Create(AFileName);
   Init;
 end;
 
+constructor TOriIniFile.CreateInMemory;
+begin
+  FInMemory := True;
+  FMemStream := TStringStream.Create(FMemStorage);
+end;
 
 destructor TOriIniFile.Destroy;
 begin
-  if Dirty then UpdateFile;
+  if Dirty and not FInMemory then UpdateFile;
+  if Assigned(FMemStream) then FMemStream.Free;
   inherited;
 end;
 

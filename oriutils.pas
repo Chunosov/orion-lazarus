@@ -1,3 +1,16 @@
+{***************************************************************************
+ *
+ * Orion-project.org Lazarus Helper Library
+ * Copyright (C) 2016-2017 by Nikolay Chunosov
+ * 
+ * This file is part of the Orion-project.org Lazarus Helper Library
+ * https://github.com/Chunosov/orion-lazarus
+ *
+ * This Library is free software: you can redistribute it and/or modify it 
+ * under the terms of the MIT License. See enclosed LICENSE.txt for details.
+ *
+ ***************************************************************************}
+
 unit OriUtils;
 
 interface
@@ -26,6 +39,12 @@ procedure WriteLogString(const FileName: String; const LogString: String); overl
 procedure FreeAndNilList(var AList: TFPSList);
 procedure FreeAndClearList(AList: TFPSList);
 {%endregion}
+
+{%region Strings} // TODO move to OriStrings
+function CharPos(const Str: String; Ch: Char): Integer;
+{%endregion}
+
+function IfThen(Condition: Boolean; ResultTrue: Integer; ResultFalse: Integer): Integer; overload;
 
 implementation
 
@@ -91,7 +110,7 @@ end;
 
 function GetLocalPath(PlusDelimiter: Boolean): String;
 begin
-  Result := ExtractFilePath(ParamStr(0));
+  Result := ExtractFilePath(ParamStrUTF8(0));
   if PlusDelimiter then Result := AppendPathDelim(Result);
 end;
 {%endregion}
@@ -119,5 +138,24 @@ begin
   end;
 end;
 {%endregion}
+
+{%region Strings}
+function CharPos(const Str: String; Ch: Char): Integer;
+var i: Integer;
+begin
+  for i := 1 to Length(Str) do
+    if Str[i] = Ch then
+    begin
+      Result := i;
+      Exit;
+    end;
+  Result := 0;
+end;
+{%endregion}
+
+function IfThen(Condition: Boolean; ResultTrue: Integer; ResultFalse: Integer): Integer;
+begin
+  if Condition then Result := ResultTrue else Result := ResultFalse;
+end;
 
 end.

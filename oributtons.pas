@@ -1,28 +1,15 @@
-{*******************************************************************************
-
-  Orion VCL Package
-  Chunosov N.I. (c) 2006-2009. Contact: rezonator_info at mail.ru
-  Copyrights on some code used as base for this package belogns to their owners.
-
-  OriButtons
-  Set of different button controls.
-
-  An idea of TDialogPanel component was taken from free-pascal Lazarus IDE
-
-2009/02/13: TBXColorItem and mates was removed to TBX2000 package
-2009/05/16: + TOriDialogPanel option dpoSizeGrip added
-2009/08/26: + TOriDialogPanel option dpoSeparator added
-
-*******************************************************************************}
-
-{
-  If DK Language Manager is used ($ifdef USE_DKLANG)
-  these constants should be added in proect constants:
-		OriDialog_Apply=Apply
-		OriDialog_Cancel=Cancel
-		OriDialog_Help=Help
-		OriDialog_OK=OK
-}
+{***************************************************************************
+ *
+ * Orion-project.org Lazarus Helper Library
+ * Copyright (C) 2016-2017 by Nikolay Chunosov
+ * 
+ * This file is part of the Orion-project.org Lazarus Helper Library
+ * https://github.com/Chunosov/orion-lazarus
+ *
+ * This Library is free software: you can redistribute it and/or modify it 
+ * under the terms of the MIT License. See enclosed LICENSE.txt for details.
+ *
+ ***************************************************************************}
 
 unit OriButtons;
 

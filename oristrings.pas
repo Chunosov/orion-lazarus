@@ -1,3 +1,16 @@
+{***************************************************************************
+ *
+ * Orion-project.org Lazarus Helper Library
+ * Copyright (C) 2016-2017 by Nikolay Chunosov
+ * 
+ * This file is part of the Orion-project.org Lazarus Helper Library
+ * https://github.com/Chunosov/orion-lazarus
+ *
+ * This Library is free software: you can redistribute it and/or modify it 
+ * under the terms of the MIT License. See enclosed LICENSE.txt for details.
+ *
+ ***************************************************************************}
+
 unit OriStrings;
 
 {$mode objfpc}{$H+}
@@ -20,6 +33,7 @@ function StartsWith(const Source, SubStr: String): Boolean;
 function StartsWithI(const Source, SubStr: String): Boolean; inline;
 function CharInSet(C: WideChar; const CharSet: TSysCharSet): Boolean; overload; inline;
 function CharInSet(C: AnsiChar; const CharSet: TSysCharSet): Boolean; overload; inline;
+function PadRight(const S: String; Width: Integer; PadChar: Char): String;
 
 function FormatEx(const Format: String; const Args: array of const): String;
 
@@ -180,6 +194,13 @@ begin
         end;
     end;
   if Index <= Length(Format) then Result := Result + Copy(Format, Index, MaxInt);
+end;
+
+function PadRight(const S: String; Width: Integer; PadChar: Char): String;
+begin
+  if Width > Length(S)
+    then Result := S + StringOfChar(PadChar, Width - Length(S))
+    else Result := S;
 end;
 
 end.

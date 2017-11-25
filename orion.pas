@@ -10,7 +10,7 @@ uses
   OriTabs, DesignTime, OriEditors, OriDebugConsole, OriGraphics, OriIniFile, 
   OriMath, OriUndo, OriUtils, OriUtils_Gui, VistaDialogs, OriHelp, 
   ObjectFilter, OriStrings, OriControlsBase, OriDialogs, OriXmlFile, 
-  LazarusPackageIntf;
+  OriNotifier, LazarusPackageIntf;
 
 implementation
 

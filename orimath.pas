@@ -1,6 +1,19 @@
+{***************************************************************************
+ *
+ * Orion-project.org Lazarus Helper Library
+ * Copyright (C) 2016-2017 by Nikolay Chunosov
+ * 
+ * This file is part of the Orion-project.org Lazarus Helper Library
+ * https://github.com/Chunosov/orion-lazarus
+ *
+ * This Library is free software: you can redistribute it and/or modify it 
+ * under the terms of the MIT License. See enclosed LICENSE.txt for details.
+ *
+ ***************************************************************************}
+
 unit OriMath;
 
-{$mode objfpc}{$H+}
+{$mode delphi}{$H+}
 
 interface
 
@@ -12,6 +25,7 @@ type
     Exponent: Byte;
     Digits: Byte;
     Zerofill: Boolean;
+    class operator NotEqual(const A, B: TOriFloatFormatParams): Boolean;
   end;
   POriFloatFormatParams = ^TOriFloatFormatParams;
 
@@ -35,6 +49,11 @@ begin
   Tmp := Value1;
   Value1 := Value2;
   Value2 := Tmp;
+end;
+
+class operator TOriFloatFormatParams.NotEqual(const A, B: TOriFloatFormatParams): Boolean;
+begin
+  Result := (A.Exponent <> B.Exponent) or (A.Digits <> B.Digits) or (A.Zerofill <> B.Zerofill);
 end;
 
 function NotEqual(const A, B: TOriFloatFormatParams): Boolean;

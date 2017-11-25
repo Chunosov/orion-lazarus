@@ -13,7 +13,7 @@
         <UnitOutputDirectory Value="__lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
     </CompilerOptions>
-    <Files Count="20">
+    <Files Count="21">
       <Item1>
         <Filename Value="oritabs.pas"/>
         <UnitName Value="OriTabs"/>
@@ -95,6 +95,10 @@
         <Filename Value="orixmlfile.pas"/>
         <UnitName Value="OriXmlFile"/>
       </Item20>
+      <Item21>
+        <Filename Value="orinotifier.pas"/>
+        <UnitName Value="OriNotifier"/>
+      </Item21>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
