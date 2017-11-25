@@ -13,10 +13,12 @@
 
 unit OriUtils;
 
+{$mode objfpc}{$H+}
+
 interface
 
 uses
-  FGL;
+  FGL, Classes, FileUtil;
 
 type
   TIntegerList = specialize TFPGList<Integer>;
@@ -27,6 +29,7 @@ procedure Unused(const UnusedObject);
 function EnsurePath(const APath: String): String;
 function ExtractFileExtNoDot(const FileName: String): String;
 function GetLocalPath(PlusDelimiter: Boolean = True): String;
+function ExtractFileNameNoExt(const FileName: String): String;
 {%endregion}
 
 {%region Log}
@@ -113,7 +116,18 @@ begin
   Result := ExtractFilePath(ParamStrUTF8(0));
   if PlusDelimiter then Result := AppendPathDelim(Result);
 end;
-{%endregion}
+
+function ExtractFileNameNoExt(const FileName: String): String;
+var
+  I, J: Integer;
+begin
+  I := LastDelimiter(PathDelim + DriveDelim, FileName);
+  J := LastDelimiter('.' + PathDelim + DriveDelim, FileName);
+  if (J > 0) and (FileName[J] = '.')
+    then Result := Copy(FileName, I+1, J-I-1)
+    else Result := '';
+end;
+{%endregion Paths and FileNames}
 
 {%region Containers}
 procedure FreeAndNilList(var AList: TFPSList);
