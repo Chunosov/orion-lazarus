@@ -1110,7 +1110,9 @@ const
     [fdoNoTestFileCreate], [] {ofNoNetworkButton}, [] {ofNoLongNames},
     [] {ofOldStyleDialog}, [fdoNoDereferenceLinks], [] {ofEnableIncludeNotify},
     [] {ofEnableSizing}, [fdoDontAddToRecent], [fdoForceShowHidden],
-    [] {ofViewDetail}, [] {ofAutoPreview});
+    [] {ofViewDetail}, [] {ofAutoPreview},
+    [] // lazarus 2.2.RC1
+    );
 var
   LOption: TOpenOption;
 begin
